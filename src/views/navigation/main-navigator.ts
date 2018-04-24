@@ -27,7 +27,7 @@ const Create: NavigationRouteConfig<any> = {
   screen: CreateScreen,
   navigationOptions: {
     gesturesEnabled: false,
-    title: 'Create post',
+    title: 'NEW POST',
     headerBackTitle: null,
   },
 }

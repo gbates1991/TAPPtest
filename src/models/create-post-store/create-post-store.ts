@@ -19,6 +19,7 @@ export const CreatePostStoreModel = types
     spotPlace1: types.maybe(types.string),
     spotPlace2: types.maybe(types.string),
     spotPlace3: types.maybe(types.string),
+    imageName: types.maybe(types.string),
   })
   // setters
   .actions(self => ({
@@ -27,6 +28,9 @@ export const CreatePostStoreModel = types
     },
     setCategory(value: 'Food'|'Drink'|'Activity') {
       self.category = value
+    },
+    setImage(value: string) {
+      self.imageName = value
     },
     setSpotPlace1(value: string) {
       self.spotPlace1 = value
@@ -60,6 +64,11 @@ export const CreatePostStoreModel = types
         category: {
           presence: {
             message: 'Category required',
+          },
+        },
+        imageName: {
+          presence: {
+            message: 'Image required',
           },
         },
         spotPlace1: {

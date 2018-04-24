@@ -25,7 +25,9 @@ export const locationContainer: ViewStyle = {
 export const locationName: TextStyle = {
   fontSize: 20,
   fontWeight: 'bold',
+  color: 'white',
 }
 export const locationAddress: TextStyle = {
   fontSize: 10,
+  color: 'white',
 }

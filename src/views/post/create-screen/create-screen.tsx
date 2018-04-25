@@ -1,12 +1,15 @@
 import * as React from 'react'
-import { View, KeyboardAvoidingView, Text, TouchableOpacity, ScrollView } from 'react-native'
+import { View, KeyboardAvoidingView, Text, TouchableOpacity, ScrollView, Image } from 'react-native'
 import { NavigationScreenProps } from 'react-navigation'
 import { inject, observer } from 'mobx-react'
-import { TextField } from '../../../views/shared/text-field'
-import RadioForm from 'react-native-simple-radio-button'
+import { TextField } from '../../../views/shared/text-field-custom'
+import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import ImagePicker from 'react-native-image-picker';
+import LinearGradient from 'react-native-linear-gradient';
 // import { DropDownPicker } from '../../../views/shared/drop-down-picker'
-import { Button } from '../../shared/button'
+import { Button } from '../../shared/button-custom'
+import Checked from '../../theme/images/ok.png'
+import Unchecked from '../../theme/images/empty.png'
 
 //stores
 import { CreatePostStore } from '../../../models/create-post-store'
@@ -27,10 +30,10 @@ export interface CreateScreenProps extends NavigationScreenProps<{}> {
 export interface CreateScreenState {}
 
 const radio_props = [
-  { label: 'FOOD', value: 'FOOD' },
-  { label: 'DRINKS', value: 'DRINKS' },
-  { label: 'ACTIVITIES', value: 'ACTIVITIES' },
-  { label: 'STAY', value: 'STAY' },
+  { label: 'FOOD', value: 'Food' },
+  { label: 'DRINKS', value: 'Drinks' },
+  { label: 'ACTIVITIES', value: 'Activities' },
+  { label: 'STAY', value: 'Stay' },
 ];
 
 @inject('createPostStore', 'modalStore', 'placeSearchStore', 'postListStore')
@@ -39,7 +42,8 @@ export class CreateScreen extends React.Component<CreateScreenProps, CreateScree
   constructor(props) {
     super(props);
     this.state = {
-      imageName: ''
+      imageName: '',
+      radioValue: 'Food',
     }
   }
 
@@ -78,19 +82,43 @@ export class CreateScreen extends React.Component<CreateScreenProps, CreateScree
     const {
       postListStore,
       navigation,
-      createPostStore: { caption, spotPlace1, spotPlace2, spotPlace3 },
+      createPostStore: { caption, spotPlace1, spotPlace2, spotPlace3, imageName },
     } = this.props
 
-    postListStore.addPost(caption, 'Top3', 'image', 'Food', spotPlace1, spotPlace2, spotPlace3)
+    postListStore.addPost(caption, 'Top3', 'image', 'Food', spotPlace1, spotPlace1, spotPlace1)
+    navigation.navigate('PostsList')
+  }
+  
+  _onPressGoBack = () => {
+    const {
+      navigation
+    } = this.props
     navigation.navigate('PostsList')
   }
 
-  _onCategorySelection = (id, data) => {
-    if (data === 'Food') {
-      this.props.createPostStore.setCategory('Food')
-      return true
-    }
-    return false
+  _onCategorySelection = (data) => {
+    this.setState({ radioValue: data })
+    // if (data === 'Food') {
+      this.props.createPostStore.setCategory(data)
+    //   return true
+    // }
+    // return false
+  }
+
+  renderRadioButtons = () => {
+    return radio_props.map((element, index) => {
+      return(
+        <TouchableOpacity
+          key={element.label}
+          onPress={() => { this._onCategorySelection(element.value) }}
+        >
+          <View style={index <= 3 ? styles.singleRadioButton : styles.singleRadioButtonRight }>
+            <Image style={styles.RadioImage} source={element.value === this.state.radioValue ? Checked: Unchecked} />
+            <Text style={styles.RadioTitle}>{element.label}</Text>
+          </View>
+        </TouchableOpacity>
+      ) 
+    })
   }
 
   render() {
@@ -129,16 +157,17 @@ export class CreateScreen extends React.Component<CreateScreenProps, CreateScree
             <View style={styles.customContainer}>
               <Text style={styles.labelStyle}>Category</Text>
               <View style={styles.customContainerRadioButtons}>
-                <RadioForm
+                {/* <RadioForm
                   label='Caption'
                   radio_props={radio_props}
                   initial={0}
                   formHorizontal={true}
-                  buttonColor={'white'}
-                  labelColor={'white'}
+                  buttonColor={'#b9babb'}
+                  labelColor={'#b9babb'}
                   labelHorizontal={false}
                   onPress={(value) => { this._onCategorySelection }}
-                />
+                />       */}
+                {this.renderRadioButtons()}
               </View>
             </View>
            
@@ -162,13 +191,36 @@ export class CreateScreen extends React.Component<CreateScreenProps, CreateScree
               label='SpotPlace3'
               placeholder='Please enter SpotPlace3'
             /> */}
-            <Button
-              style={styles.confirmButton}
-              text='Create'
-              preset='primary'
-              onPress={this._onPressAddPost}
-              disabled={!createPostStore.isValid}
-            />
+            <View style={styles.buttonsContainer}>
+              <Button
+                style={styles.backButton}
+                text='BACK'
+                preset='secondary'
+                onPress={this._onPressGoBack}
+                // disabled={!createPostStore.isValid}
+              />
+              <TouchableOpacity
+                onPress={this._onPressAddPost}
+                disabled={!createPostStore.isValid}
+              >
+                <LinearGradient
+                  colors={['#229b19', '#24b62d', '#2ad246']}
+                  style={styles.linearGradient}
+                >
+                  <Text style={styles.buttonText}>
+                    SELECT CHOICHES
+                </Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            
+              {/* <GradientButton
+                style={styles.confirmButton}
+                text='SELECT CHOICHES'
+                preset='primary'
+                onPress={this._onPressAddPost}
+                // disabled={!createPostStore.isValid}
+              /> */}
+            </View>
           </ScrollView>
         </KeyboardAvoidingView>
       </View>

@@ -14,7 +14,7 @@ export const CreatePostStoreModel = types
     /** Caption of post */
     caption: types.maybe(types.string),
     /** Category of Top3 */
-    category: types.maybe(types.enumeration(['Food', 'Drink', 'Activity'])),
+    category: types.maybe(types.enumeration(['Food', 'Drinks', 'Activities','Stay'])),
     /** 3places  */
     spotPlace1: types.maybe(types.string),
     spotPlace2: types.maybe(types.string),
@@ -26,7 +26,7 @@ export const CreatePostStoreModel = types
     setCaption(value: string) {
       self.caption = value
     },
-    setCategory(value: 'Food'|'Drink'|'Activity') {
+    setCategory(value: 'Food'|'Drinks'|'Activities'|'Stay') {
       self.category = value
     },
     setImage(value: string) {
@@ -36,10 +36,10 @@ export const CreatePostStoreModel = types
       self.spotPlace1 = value
     },
     setSpotPlace2(value: string) {
-      self.spotPlace2 = value
+      self.spotPlace2 = 'place2'
     },
     setSpotPlace3(value: string) {
-      self.spotPlace3 = value
+      self.spotPlace3 = 'place3'
     },
     reset() {
     },
@@ -66,11 +66,6 @@ export const CreatePostStoreModel = types
             message: 'Category required',
           },
         },
-        imageName: {
-          presence: {
-            message: 'Image required',
-          },
-        },
         spotPlace1: {
           presence: {
             message: 'spotPlace1 required',
@@ -78,24 +73,6 @@ export const CreatePostStoreModel = types
           length: {
             minimum: 3,
             message: 'spotPlace1 Minimumr 3',
-          },
-        },
-        spotPlace2: {
-          presence: {
-            message: 'spotPlace2 required',
-          },
-          length: {
-            minimum: 3,
-            message: 'spotPlace2 Minimumr 3',
-          },
-        },
-        spotPlace3: {
-          presence: {
-            message: 'spotPlace3 required',
-          },
-          length: {
-            minimum: 3,
-            message: 'spotPlace3 Minimumr 3',
           },
         },
       }

@@ -5,12 +5,11 @@ import { addNavigationHelpers } from 'react-navigation'
 import { RootNavigator } from './root-navigator'
 import { NavigationStore } from './navigation-store'
 import { ModalStore } from '../../models/modal-store'
-import { color } from '../theme'
 import { ModalNavigator } from '../modals'
 
 const ROOT: ViewStyle = {
   flex: 1,
-  backgroundColor: color.background,
+  // backgroundColor: color.background,
 }
 
 interface StatefulNavigatorProps {
@@ -28,10 +27,10 @@ export class StatefulNavigator extends React.Component<StatefulNavigatorProps, {
     })
 
     return (
-      <View style={ROOT}>
-        <RootNavigator navigation={navigation} />
-        <ModalNavigator />
-      </View>
-    )
+        <View style={ROOT}>
+          <RootNavigator navigation={navigation} />
+          <ModalNavigator />
+        </View>
+      )
+    }
   }
-}

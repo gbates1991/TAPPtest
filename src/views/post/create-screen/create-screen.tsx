@@ -3,7 +3,6 @@ import { View, KeyboardAvoidingView, Text, TouchableOpacity, ScrollView, Image }
 import { NavigationScreenProps } from 'react-navigation'
 import { inject, observer } from 'mobx-react'
 import { TextField } from '../../../views/shared/text-field-custom'
-import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import ImagePicker from 'react-native-image-picker';
 import LinearGradient from 'react-native-linear-gradient';
 // import { DropDownPicker } from '../../../views/shared/drop-down-picker'

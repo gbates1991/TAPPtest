@@ -1,9 +1,11 @@
+import * as React from 'react'
 import { StackNavigator, NavigationRouteConfig } from 'react-navigation'
 import { ListScreen } from '../post/list-screen'
 import { TypeSelectScreen } from '../post/type-select-screen'
 import { CreateScreen } from '../post/create-screen'
-
-import { color } from '../theme/color'
+import { StyleSheet, View } from 'react-native';
+import { Header } from 'react-navigation';
+import LinearGradient from 'react-native-linear-gradient';
 
 const PostsList: NavigationRouteConfig<any> = {
   screen: ListScreen,
@@ -37,14 +39,24 @@ export const routes = {
   Create,
 }
 
+const GradientHeader = props => (
+  <View style={{ backgroundColor: '#eee' }}>
+    <LinearGradient
+      colors={['#1c1d8b', '#172a95', '#13369e']}
+      style={[StyleSheet.absoluteFill]}
+    />
+    <Header {...props} style={{ backgroundColor: 'transparent' }} />
+  </View>
+);
+
+
 export const MainNavigator = StackNavigator(routes, {
   navigationOptions: {
     headerStyle: {
-      backgroundColor: color.secondaryText,
+      backgroundColor: 'transparent',
     },
-    headerTitleStyle: {
-      color: color.secondary,
-    },
+    headerTitleStyle: { color: '#fff' },
+    header: (props) => <GradientHeader {...props} />,
     headerLeft: null,
   },
 })
